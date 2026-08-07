@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 import json
 import uuid
 import time
+import os
 from datetime import datetime
 from typing import Dict, Set
 
@@ -590,3 +591,9 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str):
         active_connections[chat_id].discard(websocket)
         if not active_connections[chat_id]:
             del active_connections[chat_id]
+
+# ============= ЗАПУСК (для Railway) =============
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
